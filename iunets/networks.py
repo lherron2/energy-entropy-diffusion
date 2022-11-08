@@ -138,25 +138,24 @@ class iUNet(nn.Module):
         Defaults to ``1``.
     """
     def __init__(self,
-                 channels: Tuple[int, ...],
-                 architecture: Tuple[int, ...],
-                 dim: int,
-                 create_module_fn: CreateModuleFnType
-                    = create_conditional_module,
-                 module_kwargs: dict = None,
-                 learnable_resampling: bool = True,
-                 resampling_stride: int = 2,
-                 resampling_method: str = "cayley",
-                 resampling_init: Union[str, np.ndarray, torch.Tensor] = "haar",
-                 resampling_kwargs: dict = None,
-                 learnable_channel_mixing: bool = True,
-                 channel_mixing_freq: int = -1,
-                 channel_mixing_method: str = 'cayley',
-                 channel_mixing_kwargs: dict = None,
-                 padding_mode: Union[str, type[None]] = "constant",
-                 padding_value: int = 0,
-                 revert_input_padding: bool = True,
-                 disable_custom_gradient: bool = False,
+                 channels,
+                 architecture,
+                 dim,
+                 create_module_fn = create_conditional_module,
+                 module_kwargs = None,
+                 learnable_resampling = True,
+                 resampling_stride = 2,
+                 resampling_method = "cayley",
+                 resampling_init = "haar",
+                 resampling_kwargs = None,
+                 learnable_channel_mixing = True,
+                 channel_mixing_freq = -1,
+                 channel_mixing_method = 'cayley',
+                 channel_mixing_kwargs = None,
+                 padding_mode = "constant",
+                 padding_value = 0,
+                 revert_input_padding = True,
+                 disable_custom_gradient = False,
               #   verbose: int = 1,
                  **kwargs):
 
@@ -409,7 +408,7 @@ class iUNet(nn.Module):
                     add_channel_mixing(self, self.encoder_modules[i])
                     add_channel_mixing(self, self.decoder_modules[i])
 
-    def get_padding(self, x: torch.Tensor):
+    def get_padding(self, x):
         """Calculates the required padding for the input.
 
         """
@@ -431,7 +430,7 @@ class iUNet(nn.Module):
 
         return padded_shape, padding
 
-    def revert_padding(self, x: torch.Tensor, padding: List[int]):
+    def revert_padding(self, x, padding):
         """Reverses a given padding.
         
         :param x:
@@ -617,7 +616,7 @@ class iUNet(nn.Module):
         return x, log_det_jac
 
 
-    def forward(self, x: torch.Tensor, times: torch.Tensor):
+    def forward(self, x, times):
         """Applies the forward mapping of the iUNet to ``x``.
         """
 
@@ -709,7 +708,7 @@ class iUNet(nn.Module):
 
         return x, log_det_jac
     
-    def inverse(self, x: torch.Tensor, times: torch.Tensor):
+    def inverse(self, x, times):
         """Applies the inverse of the iUNet to ``x``.
         """
 

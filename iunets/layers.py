@@ -71,12 +71,12 @@ class OrthogonalResamplingLayer(torch.nn.Module):
     """
 
     def __init__(self,
-                 low_channel_number: int,
-                 stride: Union[int, Tuple[int, ...]],
-                 method: str = 'cayley',
-                 init: Union[str, np.ndarray, torch.Tensor] = 'haar',
-                 learnable: bool = True,
-                 init_kwargs: dict = None,
+                 low_channel_number,
+                 stride,
+                 method = 'cayley',
+                 init = 'haar',
+                 learnable = True,
+                 init_kwargs = None,
                  **kwargs):
 
         super(OrthogonalResamplingLayer, self).__init__()
@@ -134,11 +134,11 @@ class OrthogonalResamplingLayer(torch.nn.Module):
 
 class InvertibleDownsampling1D(OrthogonalResamplingLayer):
     def __init__(self,
-                 in_channels: int,
-                 stride: _size_1_t = 2,
-                 method: str = 'cayley',
-                 init: str = 'haar',
-                 learnable: bool = True,
+                 in_channels,
+                 stride = 2,
+                 method = 'cayley',
+                 init = 'haar',
+                 learnable = True,
                  *args,
                  **kwargs):
         stride = tuple(_single(stride))
@@ -167,11 +167,11 @@ class InvertibleDownsampling1D(OrthogonalResamplingLayer):
 
 class InvertibleUpsampling1D(OrthogonalResamplingLayer):
     def __init__(self,
-                 in_channels: int,
-                 stride: _size_1_t = 2,
-                 method: str = 'cayley',
-                 init: str = 'haar',
-                 learnable: bool = True,
+                 in_channels,
+                 stride = 2,
+                 method = 'cayley',
+                 init = 'haar',
+                 learnable = True,
                  *args,
                  **kwargs):
         stride = tuple(_pair(stride))
@@ -203,11 +203,11 @@ class InvertibleUpsampling1D(OrthogonalResamplingLayer):
 
 class InvertibleDownsampling2D(OrthogonalResamplingLayer):
     def __init__(self,
-                 in_channels: int,
-                 stride: _size_2_t = 2,
-                 method: str = 'cayley',
-                 init: str = 'haar',
-                 learnable: bool = True,
+                 in_channels,
+                 stride = 2,
+                 method = 'cayley',
+                 init = 'haar',
+                 learnable = True,
                  *args,
                  **kwargs):
         stride = tuple(_pair(stride))
@@ -237,11 +237,11 @@ class InvertibleDownsampling2D(OrthogonalResamplingLayer):
 
 class InvertibleUpsampling2D(OrthogonalResamplingLayer):
     def __init__(self,
-                 in_channels: int,
-                 stride: _size_2_t = 2,
-                 method: str = 'cayley',
-                 init: str = 'haar',
-                 learnable: bool = True,
+                 in_channels,
+                 stride = 2,
+                 method = 'cayley',
+                 init = 'haar',
+                 learnable = True,
                  *args,
                  **kwargs):
         stride = tuple(_pair(stride))
@@ -272,11 +272,11 @@ class InvertibleUpsampling2D(OrthogonalResamplingLayer):
 
 class InvertibleDownsampling3D(OrthogonalResamplingLayer):
     def __init__(self,
-                 in_channels: int,
-                 stride: _size_3_t = 2,
-                 method: str = 'cayley',
-                 init: str = 'haar',
-                 learnable: bool = True,
+                 in_channels,
+                 stride = 2,
+                 method = 'cayley',
+                 init = 'haar',
+                 learnable = True,
                  *args,
                  **kwargs):
         stride = tuple(_triple(stride))
@@ -305,11 +305,11 @@ class InvertibleDownsampling3D(OrthogonalResamplingLayer):
 
 class InvertibleUpsampling3D(OrthogonalResamplingLayer):
     def __init__(self,
-                 in_channels: int,
-                 stride: _size_3_t = 2,
-                 method: str = 'cayley',
-                 init: str = 'haar',
-                 learnable: bool = True,
+                 in_channels,
+                 stride = 2,
+                 method = 'cayley',
+                 init = 'haar',
+                 learnable = True,
                  *args,
                  **kwargs):
         stride = tuple(_triple(stride))
@@ -412,8 +412,8 @@ class AffineCoupling(nn.Module):
 
     """
     def __init__(self,
-                 F: nn.Module,
-                 channel_split_pos: int):
+                 F,
+                 channel_split_pos):
 
         super(AffineCoupling, self).__init__()
         self.F = F
@@ -541,9 +541,9 @@ class StandardBlock(nn.Module):
 
 class ConditionalAffineCoupling(nn.Module):
     def __init__(self,
-                 F1: nn.Module, # Affine coupling of data
-                 F2: nn.Module, # scale data according to temb
-                 channel_split_pos: int):
+                 F1,
+                 F2,
+                 channel_split_pos):
 
         super(ConditionalAffineCoupling, self).__init__()
         self.F1 = F1 
@@ -669,11 +669,11 @@ def create_standard_module(in_channels, **kwargs):
         channel_split_pos=num_F_out_channels
     )
 
-def __initialize_weight__(kernel_matrix_shape : Tuple[int, ...],
-                          stride : Tuple[int, ...],
-                          method : str = 'cayley',
-                          init : str = 'haar',
-                          dtype : str = 'float32',
+def __initialize_weight__(kernel_matrix_shape,
+                          stride,
+                          method  = 'cayley',
+                          init  = 'haar',
+                          dtype  = 'float32',
                           *args,
                           **kwargs):
     """Function which computes specific orthogonal matrices.
@@ -810,9 +810,9 @@ class OrthogonalChannelMixing(nn.Module):
 
     """
     def __init__(self,
-                 in_channels: int,
-                 method: str = 'cayley',
-                 learnable: bool = True,
+                 in_channels,
+                 method = 'cayley',
+                 learnable = True,
                  **kwargs
                  ):
         super(OrthogonalChannelMixing, self).__init__()
@@ -868,9 +868,9 @@ class InvertibleChannelMixing1D(OrthogonalChannelMixing):
 
     """
     def __init__(self,
-                 in_channels: int,
-                 method: str = 'cayley',
-                 learnable: bool = True,
+                 in_channels,
+                 method = 'cayley',
+                 learnable = True,
                  **kwargs):
         super(InvertibleChannelMixing1D, self).__init__(
             in_channels=in_channels,
@@ -895,9 +895,9 @@ class InvertibleChannelMixing1D(OrthogonalChannelMixing):
 
 class InvertibleChannelMixing2D(OrthogonalChannelMixing):
     def __init__(self,
-                 in_channels: int,
-                 method: str = 'cayley',
-                 learnable: bool = True,
+                 in_channels,
+                 method = 'cayley',
+                 learnable = True,
                  **kwargs
                  ):
         super(InvertibleChannelMixing2D, self).__init__(
@@ -923,9 +923,9 @@ class InvertibleChannelMixing2D(OrthogonalChannelMixing):
 
 class InvertibleChannelMixing3D(OrthogonalChannelMixing):
     def __init__(self,
-                 in_channels: int,
-                 method: str = 'cayley',
-                 learnable: bool = True,
+                 in_channels,
+                 method = 'cayley',
+                 learnable = True,
                  **kwargs
                  ):
         super(InvertibleChannelMixing3D, self).__init__(
