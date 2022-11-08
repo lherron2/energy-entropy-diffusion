@@ -157,8 +157,8 @@ class iUNet(nn.Module):
                  padding_value: int = 0,
                  revert_input_padding: bool = True,
                  disable_custom_gradient: bool = False,
-                 verbose: 1,
-                 **kwargs: Any):
+                 verbose: int = 1,
+                 **kwargs):
 
         super(iUNet, self).__init__()
 
