@@ -157,7 +157,7 @@ class iUNet(nn.Module):
                  padding_value: int = 0,
                  revert_input_padding: bool = True,
                  disable_custom_gradient: bool = False,
-                 verbose: int = 1,
+              #   verbose: int = 1,
                  **kwargs):
 
         super(iUNet, self).__init__()
@@ -259,7 +259,7 @@ class iUNet(nn.Module):
             )
 
         # --- Verbosity level ---
-        self.verbose = verbose
+        self.verbose = 1
 
         # --- Create the architecture of the iUNet ---
         downsampling_op = [InvertibleDownsampling1D,
