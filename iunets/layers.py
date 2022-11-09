@@ -564,10 +564,6 @@ class ConditionalAffineCoupling(nn.Module):
     def forward(self, x, temb, jac):
         n,c,h,w = x.size()
             # affine coupling layer
-        xa, xb  = self.split(x, mode="split-by-chunk")
-        s_and_t = self.F1(xb)
-        s, t    = self.split(s_and_t, mode="split-by-alternating")
-        s       = torch.sigmoid(s + 2.)
 
         scale_and_shift = self.F2(temb)
         scale, shift= self.split(scale_and_shift, mode="split-by-alternating")
@@ -578,7 +574,12 @@ class ConditionalAffineCoupling(nn.Module):
         # shift: {shift.shape}
         # x: {x.shape}
         # """)
-        x = scale * x + shift
+        x_t = scale * x + shift
+        
+        xa, xb  = self.split(x_t, mode="split-by-chunk")
+        s_and_t = self.F1(xb)
+        s, t    = self.split(s_and_t, mode="split-by-alternating")
+        s       = torch.sigmoid(s + 2.)
 
         ya = s * xa + t
         y       = torch.cat([ya,xb],dim=1)
@@ -598,11 +599,11 @@ class ConditionalAffineCoupling(nn.Module):
         scale_and_shift = self.F2(temb)
         scale, shift= self.split(scale_and_shift, mode="split-by-alternating")
         scale = torch.sigmoid(scale + 2.)
-        x = (x - shift)/scale
+        y_t = (y - shift)/scale
         log_det_jac  = torch.log(s).view(n,-1).sum(-1) + torch.log(scale).view(n,-1).sum(-1)
         # log_det_jac = torch.tensor(log_det_jac, requires_grad=False)
         jac += torch.abs(log_det_jac)
-        return y, temb, jac
+        return y_t, temb, jac
 
 
 # what shape does the time embedding have to be relative to the data
